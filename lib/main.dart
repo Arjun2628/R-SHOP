@@ -2,10 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:first_project/chatModels/user_model.dart';
 import 'package:first_project/functions/firebase_helper.dart';
+import 'package:first_project/screens/profile/providers/provider_add_profile.dart';
+import 'package:first_project/screens/profile/providers/provider_profile_screen.dart';
 
 import 'package:first_project/screens/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 // ignore: prefer_const_constructors
@@ -39,12 +42,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: SplashScreen(chechNumber: 1),
-      //  LoginScreen(),
-      // firstWidget,
-      theme: ThemeData(primaryColor: Colors.lightBlue),
-      debugShowCheckedModeBanner: false,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => ProviderAddProfile()),
+        ChangeNotifierProvider(create: (context) => ProviderProfileScreen())
+      ],
+      child: MaterialApp(
+        home: SplashScreen(chechNumber: 1),
+        //  LoginScreen(),
+        // firstWidget,
+        theme: ThemeData(primaryColor: Colors.lightBlue),
+        debugShowCheckedModeBanner: false,
+      ),
     );
   }
 }
@@ -63,17 +72,23 @@ class MyAppLoggedIn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: SplashScreen(
-        user: user,
-        usermodel: usermodel,
-        chechNumber: 2,
-      ),
-      // LoginScreen(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => ProviderAddProfile()),
+        ChangeNotifierProvider(create: (context) => ProviderProfileScreen())
+      ],
+      child: MaterialApp(
+        home: SplashScreen(
+          user: user,
+          usermodel: usermodel,
+          chechNumber: 2,
+        ),
+        // LoginScreen(),
 
-      // firstWidget,
-      theme: ThemeData(primaryColor: Colors.lightBlue),
-      debugShowCheckedModeBanner: false,
+        // firstWidget,
+        theme: ThemeData(primaryColor: Colors.lightBlue),
+        debugShowCheckedModeBanner: false,
+      ),
     );
   }
 }
